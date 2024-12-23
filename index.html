@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Infinite Nature Loop</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 20px;
+    }
+    #nature-img {
+      width: 300px;
+      height: 300px;
+      object-fit: cover;
+      margin-bottom: 20px;
+    }
+    #speedValue {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Infinite Nature Loop</h1>
+  
+  <!-- Display the image here -->
+  <img id="nature-img" src="" alt="Nature Image" />
+
+  <!-- Speed slider -->
+  <div>
+    <label for="speedRange">Animation Speed (ms): </label>
+    <input 
+      type="range" 
+      id="speedRange" 
+      min="200" 
+      max="2000" 
+      step="100" 
+      value="1000"
+    />
+    <span id="speedValue">1000</span> ms
+  </div>
+
+  <script>
+    // 1. Nature image sources (replace these with your own if you like)
+    const images = [
+      "https://picsum.photos/id/1015/500/500",  // nature 1
+      "https://picsum.photos/id/1020/500/500",  // nature 2
+      "https://picsum.photos/id/1044/500/500",  // nature 3
+      "https://picsum.photos/id/1050/500/500",  // nature 4
+      "https://picsum.photos/id/1055/500/500"   // nature 5
+    ];
+
+    // 2. Keep track of the current index
+    let currentIndex = 0;
+
+    // 3. Get references to DOM elements
+    const imageElement = document.getElementById("nature-img");
+    const speedRange = document.getElementById("speedRange");
+    const speedValue = document.getElementById("speedValue");
+
+    // 4. Set the default image
+    imageElement.src = images[currentIndex];
+
+    // 5. Store the interval ID
+    let intervalId = null;
+
+    // 6. Function to start the animation
+    function startSlideshow(speed) {
+      // Clear any existing interval
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+
+      // Set a new interval
+      intervalId = setInterval(() => {
+        // Move to the next index
+        currentIndex = (currentIndex + 1) % images.length;
+        imageElement.src = images[currentIndex];
+      }, speed);
+    }
+
+    // 7. Update the slideshow speed when the range input changes
+    speedRange.addEventListener("input", () => {
+      const newSpeed = parseInt(speedRange.value, 10);
+      speedValue.textContent = newSpeed;
+      startSlideshow(newSpeed);
+    });
+
+    // 8. Start the slideshow initially
+    startSlideshow(parseInt(speedRange.value, 10));
+  </script>
+</body>
+</html>
